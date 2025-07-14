@@ -42,7 +42,7 @@ io.on("connection", (socket) => {
 
 //middlewares
 app.use(express.json({ limit: "10mb" }));
-app.use(express.urlencoded({ extended: true, limit: "10mb" }));app.use(cors());
+app.use(express.urlencoded({ extended: true, limit: "10mb" })); app.use(cors());
 
 //Creating end point
 app.use("/api/status", (req, res) => { res.send("Sever is Live now!!") })
@@ -51,6 +51,12 @@ app.use("/api/messages", messageRouter)
 
 await connectDB()
 
-const PORT = process.env.PORT || 4000;
 
-server.listen(PORT, () => { console.log("Server is running on port:" + PORT) });
+if (process.env.NODE_ENV !== "production") {
+
+    const PORT = process.env.PORT || 4000;
+    server.listen(PORT, () => { console.log("Server is running on port:" + PORT) });
+
+}
+
+export default server
